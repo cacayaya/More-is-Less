@@ -64,9 +64,10 @@ python combine_data.py \
   --output_dir ./gen-data/Llama-2-70b-Llama-2-7b-mix
 ```
 
-`combine_data.py` will allow you to combine more powerful models with self-gen data to form following preference datasets:
+`combine_data.py` will allow you to combine more powerful models' answer with self-gen responses to form following preference datasets:
 
 4. **GPT4o+Self**: Using GPT-4o response as chosen paired with self-generated response as rejected
+
 We provide 10k GPT-4o generated response in the `./gen-data/gpt4o_generated_10k`, which could be used to pair the preference data.
 
 5. **Stronger+self**: : Using Larger models’ responses as chosen paired with self-generated response as rejected

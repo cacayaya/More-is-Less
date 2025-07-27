@@ -43,6 +43,7 @@ This will output 3 different types of synthetic preference data in separate dire
 
 To combine any two different source data into preference dataset:
 ```bash
+# Using HC_self dir's rejected answer here just to get each model's self-gen responses to combine
 # Example 1: Combine GPT-4o responses with self-generated responses without reward model
 python combine_data.py \
   --rejected_data ./gen-data/Llama-2-7b_generated_10k/HC_self \

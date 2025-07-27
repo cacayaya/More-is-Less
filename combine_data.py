@@ -47,7 +47,7 @@ def process_model_pair(rejected_data, chosen_data, output_path, use_reward_model
     
     for item1 in tqdm(rejected_data, desc="Processing data pairs"):
         # Access the prompt from the first model's data
-        prompt1 = item1['generated'][0]['content']
+        prompt1 = item1['rejected'][0]['content']
         
         # Search for the matching prompt in the second model's data
         matching_item2 = next((item2 for item2 in chosen_data if item2['prompt'] == prompt1), None)
@@ -56,7 +56,7 @@ def process_model_pair(rejected_data, chosen_data, output_path, use_reward_model
             print(f"No matching prompt found for: {prompt1}")
             continue
         
-        response1 = item1['generated'][1]['content']
+        response1 = item1['rejected'][1]['content']
         response2 = matching_item2['response']
         
         # If using reward model, verify which response is actually better
@@ -66,16 +66,16 @@ def process_model_pair(rejected_data, chosen_data, output_path, use_reward_model
             # Use the response with the higher score as chosen
             if score1 > score2:
                 # Swap if the first model's response is actually better
-                chosen = item1['generated']
+                chosen = item1['rejected']
                 rejected = [{"content": prompt1, "role": "user"}, {"content": response2, "role": "assistant"}]
                 print(f"Swapped based on reward model: {score1:.3f} > {score2:.3f}")
             else:
                 chosen = [{"content": prompt1, "role": "user"}, {"content": response2, "role": "assistant"}]
-                rejected = item1['generated']
+                rejected = item1['rejected']
         else:
             # Without reward model, use larger model's response as chosen and base model's response as rejected
             chosen = [{"content": prompt1, "role": "user"}, {"content": response2, "role": "assistant"}]
-            rejected = item1['generated']
+            rejected = item1['rejected']
 
         reformed_data.append({
             "prompt": prompt1,
